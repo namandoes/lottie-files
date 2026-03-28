@@ -7,126 +7,141 @@
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;padding:2rem}
-.wrap{max-width:680px;margin:0 auto}
+.wrap{max-width:700px;margin:0 auto}
 h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .sub{font-size:13px;color:#8b949e;margin-bottom:1.5rem}
-.token-row{display:flex;gap:8px;margin-bottom:1.5rem}
-.token-row input{flex:1;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px 12px;color:#e6edf3;font-size:13px}
-.token-row button{padding:8px 16px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3;cursor:pointer;font-size:13px;white-space:nowrap}
-.token-row button:hover{background:#30363d}
-#drop-zone{border:1.5px dashed #30363d;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;margin-bottom:1rem;background:#161b22;transition:all .15s}
-#drop-zone:hover,#drop-zone.over{background:#1c2128;border-color:#58a6ff}
-#drop-zone p{font-size:15px;font-weight:500;margin-bottom:4px}
-#drop-zone span{font-size:13px;color:#8b949e}
-#file-input{display:none}
-.file-card{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.nav{display:flex;gap:8px;margin-bottom:1.5rem}
+.nav a{font-size:13px;color:#58a6ff;text-decoration:none;padding:6px 14px;border:1px solid #30363d;border-radius:6px;background:#161b22}
+.nav a:hover,.nav a.active{background:#21262d;border-color:#58a6ff}
+.trow{display:flex;gap:8px;margin-bottom:8px}
+.trow input{flex:1;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px 12px;color:#e6edf3;font-size:13px;outline:none}
+.trow input:focus{border-color:#58a6ff}
+.trow button{padding:8px 16px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3;cursor:pointer;font-size:13px}
+.trow button:hover{background:#30363d}
+.msg{font-size:12px;margin-bottom:1rem;min-height:18px}
+.info{background:#0d2137;border:1px solid #1f4e7a;border-radius:8px;padding:10px 14px;font-size:12px;color:#58a6ff;margin-bottom:1rem}
+#dz{border:1.5px dashed #30363d;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;margin-bottom:1rem;background:#161b22;transition:all .15s}
+#dz:hover,#dz.over{background:#1c2128;border-color:#58a6ff}
+#dz p{font-size:15px;font-weight:500;margin-bottom:4px}
+#dz span{font-size:13px;color:#8b949e}
+#fi{display:none}
+.fc{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
 .fh{display:flex;align-items:center;gap:8px;margin-bottom:8px}
-.fname{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.badge{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:500}
+.fn{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bx{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:500}
 .bg{background:#21262d;color:#8b949e}
 .bb{background:#1f3d6e;color:#58a6ff}
 .bk{background:#1a3a2a;color:#3fb950}
 .br{background:#3d1f1f;color:#f85149}
-.prog{height:3px;background:#21262d;border-radius:2px}
-.pf{height:100%;width:0%;border-radius:2px;background:#58a6ff;transition:width .3s}
-.link-box{display:flex;align-items:center;gap:8px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:8px 12px;margin-top:8px}
+.pg{height:4px;background:#21262d;border-radius:2px;overflow:hidden}
+.pf{height:100%;width:0%;border-radius:2px;background:#58a6ff;transition:width .4s}
+.lb{display:flex;align-items:center;gap:8px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:8px 12px;margin-top:8px}
 .lu{flex:1;font-size:11px;font-family:monospace;color:#8b949e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0}
 .cb:hover{background:#30363d}
-.upbtn{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1rem;transition:background .15s}
-.upbtn:hover{background:#30363d}
-.upbtn:disabled{opacity:0.4;cursor:not-allowed}
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
-.stat{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px}
+.upb{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1rem}
+.upb:hover{background:#30363d}
+.upb:disabled{opacity:0.4;cursor:not-allowed}
+.st{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:1rem}
+.sc{background:#161b22;border:1px solid #30363d;border-radius:8px;padding:12px}
 .sl{font-size:11px;color:#8b949e;margin-bottom:4px}
 .sv{font-size:18px;font-weight:500;color:#3fb950}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <h1>Lottie Uploader</h1>
-  <p class="sub">namandoes/lottie-files &mdash; generates Framer CDN links instantly</p>
-
-  <div class="token-row">
-    <input type="password" id="gh-token" placeholder="Paste your GitHub token (ghp_...)" autocomplete="off"/>
-    <button onclick="saveToken()">Save token</button>
-  </div>
-
-  <div id="drop-zone" onclick="document.getElementById('file-input').click()">
-    <p>Drop .json or .lottie files here</p>
-    <span>Any file size &mdash; click or drag to add</span>
-  </div>
-  <input type="file" id="file-input" accept=".json,.lottie" multiple/>
-  <div id="queue"></div>
-  <button class="upbtn" id="upload-btn" onclick="uploadAll()">Upload all to GitHub</button>
-  <div class="stats" id="stats" style="display:none">
-    <div class="stat"><div class="sl">Uploaded</div><div class="sv" id="sc">0</div></div>
-    <div class="stat"><div class="sl">Total size</div><div class="sv" id="ss">-</div></div>
-    <div class="stat"><div class="sl">Status</div><div class="sv" id="sw">-</div></div>
-  </div>
+<h1>Lottie Uploader</h1>
+<p class="sub">namandoes/lottie-files &mdash; Framer CDN links</p>
+<div class="nav"><a href="index.html" class="active">Lottie</a><a href="upload-video.html">Video</a></div>
+<div class="trow">
+  <input type="password" id="tok" placeholder="Paste GitHub token (ghp_...)" autocomplete="off"/>
+  <button onclick="saveTok()">Save token</button>
+</div>
+<p class="msg" id="msg"></p>
+<div class="info">Uses ArrayBuffer conversion to handle large Lottie files (6-10MB+) without GitHub API size errors.</div>
+<div id="dz" onclick="document.getElementById('fi').click()">
+  <p>Drop .json or .lottie files here</p>
+  <span>Any file size &mdash; click or drag</span>
+</div>
+<input type="file" id="fi" accept=".json,.lottie" multiple/>
+<div id="q"></div>
+<button class="upb" id="ubtn" onclick="uploadAll()">Upload all to GitHub</button>
+<div class="st" id="stats" style="display:none">
+  <div class="sc"><div class="sl">Uploaded</div><div class="sv" id="sc1">0</div></div>
+  <div class="sc"><div class="sl">Size</div><div class="sv" id="sc2">-</div></div>
+  <div class="sc"><div class="sl">Status</div><div class="sv" id="sc3">-</div></div>
+</div>
 </div>
 <script>
-const U='namandoes',R='lottie-files',B='main';
+const GU='namandoes',GR='lottie-files',GB='main';
 let files=[],uc=0,tb=0;
-const dz=document.getElementById('drop-zone'),fi=document.getElementById('file-input'),q=document.getElementById('queue');
-
-function getToken(){return sessionStorage.getItem('gh_token')||'';}
-function saveToken(){const t=document.getElementById('gh-token').value.trim();if(t){sessionStorage.setItem('gh_token',t);document.getElementById('gh-token').value='';alert('Token saved for this session!');}}
-
-function fmt(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(1)+' KB';return(b/1048576).toFixed(2)+' MB'}
-function hd(){return{'Authorization':'token '+getToken(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'}}
-
-function add(l){[...l].forEach(f=>{
+const dz=document.getElementById('dz'),fi=document.getElementById('fi'),q=document.getElementById('q');
+function gt(){return sessionStorage.getItem('ght')||'';}
+function saveTok(){const t=document.getElementById('tok').value.trim();if(!t){m('Enter token first','#f85149');return;}sessionStorage.setItem('ght',t);document.getElementById('tok').value='';m('Saved!','#3fb950');}
+function m(txt,col){const e=document.getElementById('msg');e.textContent=txt;e.style.color=col;setTimeout(()=>e.textContent='',3000);}
+function fmt(b){if(b<1048576)return(b/1024).toFixed(0)+' KB';return(b/1048576).toFixed(1)+' MB';}
+function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
+function addF(l){[...l].forEach(f=>{
   if(files.find(x=>x.name===f.name))return;
   files.push(f);tb+=f.size;
   const i=files.length,c=document.createElement('div');
-  c.className='file-card';c.id='c'+i;
-  c.innerHTML='<div class="fh"><span class="fname">'+f.name+'</span><span class="badge bb">'+fmt(f.size)+'</span><span class="badge bg" id="s'+i+'">queued</span></div><div class="prog"><div class="pf" id="p'+i+'"></div></div>';
+  c.className='fc';c.id='fc'+i;
+  c.innerHTML='<div class="fh"><span class="fn">'+f.name+'</span><span class="bx bb">'+fmt(f.size)+'</span><span class="bx bg" id="fs'+i+'">queued</span></div><div class="pg"><div class="pf" id="fp'+i+'"></div></div>';
   q.appendChild(c);
-})}
-
-fi.addEventListener('change',e=>{add(e.target.files);fi.value='';});
+});}
+fi.addEventListener('change',e=>{addF(e.target.files);fi.value='';});
 dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',()=>dz.classList.remove('over'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');add(e.dataTransfer.files);});
-
-function ss(i,t,c){const e=document.getElementById('s'+i);if(e){e.textContent=t;e.className='badge '+c;}}
-function sp(i,p){const e=document.getElementById('p'+i);if(e)e.style.width=p+'%';}
-function b64(f){return new Promise((r,j)=>{const rd=new FileReader();rd.onload=e=>r(e.target.result.split(',')[1]);rd.onerror=j;rd.readAsDataURL(f);})}
-async function api(path,method,body){const r=await fetch('https://api.github.com'+path,{method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined});if(!r.ok){const e=await r.json();throw new Error(e.message);}return r.json();}
-
-async function up(f,i){
-  ss(i,'reading','bb');sp(i,10);
-  const d=await b64(f);
-  ss(i,'uploading','bb');sp(i,25);
-  const bl=await api('/repos/'+U+'/'+R+'/git/blobs','POST',{content:d,encoding:'base64'});sp(i,50);
-  const rf=await api('/repos/'+U+'/'+R+'/git/ref/heads/'+B);
-  const cm=await api('/repos/'+U+'/'+R+'/git/commits/'+rf.object.sha);sp(i,65);
-  const tr=await api('/repos/'+U+'/'+R+'/git/trees','POST',{base_tree:cm.tree.sha,tree:[{path:'animations/'+f.name,mode:'100644',type:'blob',sha:bl.sha}]});
-  const nc=await api('/repos/'+U+'/'+R+'/git/commits','POST',{message:'Upload '+f.name,tree:tr.sha,parents:[rf.object.sha]});sp(i,85);
-  await api('/repos/'+U+'/'+R+'/git/refs/heads/'+B,'PATCH',{sha:nc.sha});sp(i,100);
+dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');addF(e.dataTransfer.files);});
+function setSt(i,t,c){const e=document.getElementById('fs'+i);if(e){e.textContent=t;e.className='bx '+c;}}
+function setPg(i,p){const e=document.getElementById('fp'+i);if(e)e.style.width=Math.min(100,p)+'%';}
+function buf2b64(buf){
+  const b=new Uint8Array(buf);const C=8192;let s='';
+  for(let i=0;i<b.length;i+=C)s+=String.fromCharCode.apply(null,b.subarray(i,Math.min(i+C,b.length)));
+  return btoa(s);
 }
-
+function readBuf(f){return new Promise((r,j)=>{const rd=new FileReader();rd.onload=e=>r(e.target.result);rd.onerror=j;rd.readAsArrayBuffer(f);});}
+async function call(path,method,body){
+  const r=await fetch('https://api.github.com'+path,{method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined});
+  if(!r.ok){const e=await r.json();throw new Error(e.message);}
+  return r.json();
+}
+async function upFile(f,i){
+  setSt(i,'reading...','bb');setPg(i,5);
+  const buf=await readBuf(f);
+  const b64=buf2b64(buf);
+  setSt(i,'uploading blob...','bb');setPg(i,20);
+  const blob=await call('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});
+  setPg(i,50);
+  const ref=await call('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB);
+  const commit=await call('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha);
+  setPg(i,65);
+  const tree=await call('/repos/'+GU+'/'+GR+'/git/trees','POST',{base_tree:commit.tree.sha,tree:[{path:'animations/'+f.name,mode:'100644',type:'blob',sha:blob.sha}]});
+  const nc=await call('/repos/'+GU+'/'+GR+'/git/commits','POST',{message:'Upload '+f.name,tree:tree.sha,parents:[ref.object.sha]});
+  setPg(i,85);
+  await call('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:nc.sha,force:false});
+  setPg(i,100);
+}
 async function uploadAll(){
-  if(!getToken()){alert('Paste your GitHub token first and click Save token.');return;}
-  if(!files.length){alert('Add files first.');return;}
-  const btn=document.getElementById('upload-btn');btn.disabled=true;btn.textContent='Uploading...';
+  if(!gt()){m('Save your token first','#f85149');return;}
+  if(!files.length){m('Add files first','#e3b341');return;}
+  const btn=document.getElementById('ubtn');btn.disabled=true;btn.textContent='Uploading...';
   for(let i=0;i<files.length;i++){
-    const f=files[i],idx=i+1,card=document.getElementById('c'+idx);
+    const f=files[i],idx=i+1,card=document.getElementById('fc'+idx);
     try{
-      await up(f,idx);ss(idx,'uploaded','bk');uc++;
-      const cdn='https://cdn.jsdelivr.net/gh/'+U+'/'+R+'@'+B+'/animations/'+f.name;
-      const bx=document.createElement('div');bx.className='link-box';
+      await upFile(f,idx);setSt(idx,'done','bk');uc++;
+      const cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/animations/'+encodeURIComponent(f.name);
+      const bx=document.createElement('div');bx.className='lb';
       bx.innerHTML='<span class="lu">'+cdn+'</span><button class="cb" data-url="'+cdn+'">Copy for Framer</button>';
-      bx.querySelector('.cb').onclick=function(){navigator.clipboard.writeText(this.dataset.url).then(()=>{this.textContent='Copied!';setTimeout(()=>this.textContent='Copy for Framer',1500);});};
+      bx.querySelector('.cb').onclick=function(){navigator.clipboard.writeText(this.dataset.url).then(()=>{const o=this.textContent;this.textContent='Copied!';setTimeout(()=>this.textContent=o,1500);});};
       if(card)card.appendChild(bx);
-    }catch(err){ss(idx,'failed: '+err.message,'br');sp(idx,0);}
+    }catch(err){setSt(idx,'error: '+err.message,'br');setPg(idx,0);}
   }
   btn.disabled=false;btn.textContent='Upload more';
-  const sb=document.getElementById('stats');sb.style.display='grid';
-  document.getElementById('sc').textContent=uc;
-  document.getElementById('ss').textContent=fmt(tb);
-  document.getElementById('sw').textContent=uc+'/'+files.length+' done';
+  document.getElementById('stats').style.display='grid';
+  document.getElementById('sc1').textContent=uc;
+  document.getElementById('sc2').textContent=fmt(tb);
+  document.getElementById('sc3').textContent=uc+'/'+files.length+' done';
 }
 </script>
 </body>
