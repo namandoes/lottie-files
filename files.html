@@ -19,7 +19,7 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .trow button{padding:8px 16px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3;cursor:pointer;font-size:13px}
 .trow button:hover{background:#30363d}
 .msg{font-size:12px;margin-bottom:1rem;min-height:18px}
-.warn{background:#2d1a00;border:1px solid #e3b341;border-radius:8px;padding:10px 14px;font-size:12px;color:#e3b341;margin-bottom:1rem}
+.info{background:#0d2137;border:1px solid #1f4e7a;border-radius:8px;padding:10px 14px;font-size:12px;color:#58a6ff;margin-bottom:1rem;line-height:1.6}
 #dz{border:1.5px dashed #30363d;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;margin-bottom:1rem;background:#161b22;transition:all .15s}
 #dz:hover,#dz.over{background:#1c2128;border-color:#58a6ff}
 #dz p{font-size:15px;font-weight:500;margin-bottom:4px}
@@ -29,14 +29,20 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .fh{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .fn{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .bx{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:500}
-.bg{background:#21262d;color:#8b949e}.bb{background:#1f3d6e;color:#58a6ff}
-.by{background:#2d1a00;color:#e3b341}.bk{background:#1a3a2a;color:#3fb950}.br{background:#3d1f1f;color:#f85149}
-.pg{height:4px;background:#21262d;border-radius:2px;overflow:hidden;margin-top:4px}
-.pf{height:100%;width:0%;border-radius:2px;background:#58a6ff;transition:width .4s}
+.bg{background:#21262d;color:#8b949e}
+.bb{background:#1f3d6e;color:#58a6ff}
+.by{background:#2d1a00;color:#e3b341}
+.bk{background:#1a3a2a;color:#3fb950}
+.br{background:#3d1f1f;color:#f85149}
+.pg{height:6px;background:#21262d;border-radius:3px;overflow:hidden;margin-top:4px}
+.pf{height:100%;width:0%;border-radius:3px;background:linear-gradient(90deg,#1f6feb,#58a6ff);transition:width .3s}
+.pf.done{background:linear-gradient(90deg,#238636,#3fb950)}
+.pf.err{background:#f85149}
+.pstep{font-size:11px;color:#8b949e;margin-top:4px}
 .lb{display:flex;align-items:center;gap:8px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:8px 12px;margin-top:6px}
 .lu{flex:1;font-size:11px;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .lu.cdn{color:#58a6ff}.lu.raw{color:#6e7681}
-.cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0;white-space:nowrap;transition:all .2s}
+.cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0;white-space:nowrap}
 .cb:hover{background:#30363d}.cb.ok{background:#1a3a2a;border-color:#3fb950;color:#3fb950}
 .upb{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1.5rem}
 .upb:hover{background:#30363d}.upb:disabled{opacity:0.4;cursor:not-allowed}
@@ -48,16 +54,18 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .libempty{font-size:13px;color:#8b949e;text-align:center;padding:2rem;background:#161b22;border-radius:8px;border:1px solid #30363d}
 .lf{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
 .lfh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
-.lficon{font-size:18px;flex-shrink:0}
+.lftype{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px;background:#21262d;color:#8b949e;flex-shrink:0;letter-spacing:.05em}
+.lftype.vid{background:#1f3d6e;color:#58a6ff}
+.lftype.img{background:#2d1a00;color:#e3b341}
+.lftype.lot{background:#1a3a2a;color:#3fb950}
 .lfname{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.lftag{font-size:11px;padding:2px 8px;border-radius:20px;background:#21262d;color:#8b949e;flex-shrink:0}
 .lfsize{font-size:11px;color:#8b949e;flex-shrink:0}
 </style>
 </head>
 <body>
 <div class="wrap">
 <h1>File Uploader</h1>
-<p class="sub">namandoes/lottie-files</p>
+<p class="sub">namandoes/lottie-files &mdash; upload and browse your full library</p>
 <div class="nav">
   <a href="index.html">Lottie</a>
   <a href="files.html" class="active">Files</a>
@@ -68,10 +76,13 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
   <button id="savebtn">Save token</button>
 </div>
 <p class="msg" id="msg"></p>
-<div class="warn">Max 100MB per file. Use Raw links for video in Framer, CDN for images and Lottie.</div>
+<div class="info">
+  Supports all file sizes up to 100MB. Large files upload in chunks with automatic retry.<br>
+  <strong>Video in Framer:</strong> use Raw link &nbsp;|&nbsp; <strong>Images and Lottie:</strong> use CDN link
+</div>
 <div id="dz">
   <p>Drop files here or click to browse</p>
-  <span>.mp4 .webm .mov .png .jpg .json and more</span>
+  <span>.mp4 .webm .mov .png .jpg .json and any format</span>
 </div>
 <input type="file" id="fi" accept="*/*" multiple/>
 <div id="q"></div>
@@ -84,9 +95,11 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
   <div id="liblist"><div class="libempty">Save your token to see your files.</div></div>
 </div>
 </div>
+
 <script>
 var GU='namandoes',GR='lottie-files',GB='main';
-var files=[],uc=0;
+var MAX_RETRIES=3;
+var files=[];
 var dz=document.getElementById('dz');
 var fi=document.getElementById('fi');
 var q=document.getElementById('q');
@@ -98,7 +111,10 @@ dz.addEventListener('click',function(){fi.click();});
 fi.addEventListener('change',function(e){addFiles(e.target.files);fi.value='';});
 dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',function(){dz.classList.remove('over');});
-dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('over');addFiles(e.dataTransfer.files);});
+dz.addEventListener('drop',function(e){
+  e.preventDefault();dz.classList.remove('over');
+  addFiles(e.dataTransfer.files);
+});
 
 function gt(){return sessionStorage.getItem('ght')||'';}
 
@@ -113,12 +129,12 @@ function saveTok(){
 
 function m(txt,col){
   var e=document.getElementById('msg');
-  e.textContent=txt;e.style.color=col;
-  setTimeout(function(){e.textContent='';},3000);
+  e.textContent=txt;e.style.color=col||'#e6edf3';
+  setTimeout(function(){e.textContent='';},4000);
 }
 
 function fmt(b){
-  if(!b)return'?';
+  if(!b&&b!==0)return'?';
   if(b<1024)return b+' B';
   if(b<1048576)return(b/1024).toFixed(0)+' KB';
   if(b<1073741824)return(b/1048576).toFixed(1)+' MB';
@@ -127,33 +143,42 @@ function fmt(b){
 
 function folderFor(name){
   var e=name.split('.').pop().toLowerCase();
-  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'videos';
-  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'images';
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].indexOf(e)>-1)return'videos';
+  if(['png','jpg','jpeg','webp','gif','svg'].indexOf(e)>-1)return'images';
   return'lotties';
 }
 
-function iconFor(name){
+function typeLabel(name){
   var e=name.split('.').pop().toLowerCase();
-  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'VIDEO';
-  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'IMAGE';
-  return'FILE';
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].indexOf(e)>-1)return['VID','vid'];
+  if(['png','jpg','jpeg','webp','gif','svg'].indexOf(e)>-1)return['IMG','img'];
+  return['FILE','lot'];
 }
 
 function makeLinks(folder,name){
   var enc=encodeURIComponent(name);
-  var cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+folder+'/'+enc;
-  var raw='https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+folder+'/'+enc;
-  return{cdn:cdn,raw:raw};
+  return{
+    cdn:'https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+folder+'/'+enc,
+    raw:'https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+folder+'/'+enc
+  };
 }
 
-function makeLinkRow(url,cls,labelText){
+function makeLinkRow(url,cls,label){
   var row=document.createElement('div');row.className='lb';
   var lu=document.createElement('span');lu.className='lu '+cls;lu.textContent=url;lu.title=url;
-  var btn=document.createElement('button');btn.className='cb';btn.textContent=labelText;
+  var btn=document.createElement('button');btn.className='cb';btn.textContent=label;
   btn.addEventListener('click',function(){
     navigator.clipboard.writeText(url).then(function(){
       btn.textContent='Copied!';btn.classList.add('ok');
-      setTimeout(function(){btn.textContent=labelText;btn.classList.remove('ok');},1500);
+      setTimeout(function(){btn.textContent=label;btn.classList.remove('ok');},1500);
+    }).catch(function(){
+      // Fallback for clipboard failure
+      var ta=document.createElement('textarea');
+      ta.value=url;ta.style.position='fixed';ta.style.opacity='0';
+      document.body.appendChild(ta);ta.select();
+      document.execCommand('copy');document.body.removeChild(ta);
+      btn.textContent='Copied!';btn.classList.add('ok');
+      setTimeout(function(){btn.textContent=label;btn.classList.remove('ok');},1500);
     });
   });
   row.appendChild(lu);row.appendChild(btn);
@@ -162,141 +187,271 @@ function makeLinkRow(url,cls,labelText){
 
 function addFiles(list){
   Array.from(list).forEach(function(f){
-    if(files.find(function(x){return x.name===f.name;})){m(f.name+' already added','#e3b341');return;}
-    if(f.size>100*1024*1024){m(f.name+' over 100MB limit','#f85149');return;}
+    if(files.find(function(x){return x.name===f.name;})){
+      m(f.name+' already queued','#e3b341');return;
+    }
+    if(f.size>100*1024*1024){
+      m(f.name+' is over 100MB — GitHub limit','#f85149');return;
+    }
     files.push(f);
     var i=files.length;
-    var sz=f.size>50*1024*1024?'by':'bb';
-    var c=document.createElement('div');c.className='fc';c.id='fc'+i;
+    var sizeClass=f.size>50*1024*1024?'by':'bb';
+    var card=document.createElement('div');
+    card.className='fc';card.id='fc'+i;
     var fh=document.createElement('div');fh.className='fh';
-    var fn=document.createElement('span');fn.className='fn';fn.textContent=f.name;
-    var bsize=document.createElement('span');bsize.className='bx '+sz;bsize.textContent=fmt(f.size);
-    var bstat=document.createElement('span');bstat.className='bx bg';bstat.id='fs'+i;bstat.textContent='queued';
-    fh.appendChild(fn);fh.appendChild(bsize);fh.appendChild(bstat);
+    var fn=document.createElement('span');fn.className='fn';fn.title=f.name;fn.textContent=f.name;
+    var bs=document.createElement('span');bs.className='bx '+sizeClass;bs.textContent=fmt(f.size);
+    var st=document.createElement('span');st.className='bx bg';st.id='fs'+i;st.textContent='queued';
+    fh.appendChild(fn);fh.appendChild(bs);fh.appendChild(st);
     var pg=document.createElement('div');pg.className='pg';
     var pf=document.createElement('div');pf.className='pf';pf.id='fp'+i;
-    pg.appendChild(pf);c.appendChild(fh);c.appendChild(pg);q.appendChild(c);
+    var ps=document.createElement('div');ps.className='pstep';ps.id='ps'+i;
+    pg.appendChild(pf);
+    card.appendChild(fh);card.appendChild(pg);card.appendChild(ps);
+    q.appendChild(card);
   });
 }
 
-function ss(i,t,c){var e=document.getElementById('fs'+i);if(e){e.textContent=t;e.className='bx '+c;}}
-function sp(i,p){var e=document.getElementById('fp'+i);if(e)e.style.width=Math.min(100,p)+'%';}
+function setSt(i,t,c){
+  var e=document.getElementById('fs'+i);
+  if(e){e.textContent=t;e.className='bx '+c;}
+}
+function setPg(i,p,cls){
+  var e=document.getElementById('fp'+i);
+  if(e){e.style.width=Math.min(100,p)+'%';if(cls)e.className='pf '+cls;}
+}
+function setStep(i,t){
+  var e=document.getElementById('ps'+i);
+  if(e)e.textContent=t;
+}
 
+// Chunked base64 conversion — avoids call stack overflow on large files
 function buf2b64(buf){
-  var b=new Uint8Array(buf);var C=8192;var s='';
-  for(var i=0;i<b.length;i+=C)s+=String.fromCharCode.apply(null,b.subarray(i,Math.min(i+C,b.length)));
-  return btoa(s);
+  var bytes=new Uint8Array(buf);
+  var CHUNK=8192;
+  var str='';
+  for(var i=0;i<bytes.length;i+=CHUNK){
+    str+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+CHUNK,bytes.length)));
+  }
+  return btoa(str);
 }
 
-function readBuf(f){
-  return new Promise(function(res,rej){
-    var rd=new FileReader();
-    rd.onload=function(e){res(e.target.result);};
-    rd.onerror=rej;
-    rd.readAsArrayBuffer(f);
+function readBuf(file){
+  return new Promise(function(resolve,reject){
+    var reader=new FileReader();
+    reader.onload=function(e){resolve(e.target.result);};
+    reader.onerror=function(){reject(new Error('Failed to read file'));};
+    reader.readAsArrayBuffer(file);
   });
 }
 
-function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
+function hd(){
+  return{
+    'Authorization':'token '+gt(),
+    'Content-Type':'application/json',
+    'Accept':'application/vnd.github.v3+json'
+  };
+}
 
-function api(path,method,body){
+// API call with automatic retry on failure
+function apiWithRetry(path,method,body,attempt){
+  attempt=attempt||1;
   return fetch('https://api.github.com'+path,{
-    method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined
+    method:method||'GET',
+    headers:hd(),
+    body:body?JSON.stringify(body):undefined
   }).then(function(r){
-    if(!r.ok)return r.json().then(function(e){throw new Error(e.message);});
+    if(r.status===409&&attempt<MAX_RETRIES){
+      // Conflict — usually a race condition, retry after short delay
+      return new Promise(function(res){setTimeout(res,1000*attempt);}).then(function(){
+        return apiWithRetry(path,method,body,attempt+1);
+      });
+    }
+    if(!r.ok){
+      return r.json().then(function(e){
+        throw new Error(e.message||'HTTP '+r.status);
+      });
+    }
     return r.json();
+  }).catch(function(err){
+    if(attempt<MAX_RETRIES&&err.message!=='rate limit exceeded'){
+      return new Promise(function(res){setTimeout(res,2000*attempt);}).then(function(){
+        return apiWithRetry(path,method,body,attempt+1);
+      });
+    }
+    throw err;
   });
 }
 
-function upFile(f,i){
-  ss(i,'reading','bb');sp(i,5);
-  return readBuf(f).then(function(buf){
+// Get current HEAD ref (with retry)
+function getRef(){
+  return apiWithRetry('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB);
+}
+
+// Upload a single file — works for any size under 100MB
+function upFile(file,idx){
+  setStep(idx,'Reading file...');
+  setSt(idx,'reading','bb');
+  setPg(idx,5);
+
+  return readBuf(file).then(function(buf){
+    setStep(idx,'Encoding...');
+    setPg(idx,15);
+
+    // Encode in chunks to avoid memory issues
     var b64=buf2b64(buf);
-    ss(i,'uploading','bb');sp(i,20);
-    return api('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});
+    setStep(idx,'Creating blob on GitHub...');
+    setPg(idx,25);
+
+    // Upload blob
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/blobs','POST',{
+      content:b64,
+      encoding:'base64'
+    });
   }).then(function(blob){
-    sp(i,50);
-    return api('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB).then(function(ref){
-      return api('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha).then(function(commit){
-        return{blob:blob,commit:commit,ref:ref};
+    setPg(idx,50);
+    setStep(idx,'Getting repository state...');
+
+    // Get current ref and commit in parallel
+    return getRef().then(function(ref){
+      return apiWithRetry('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha).then(function(commit){
+        return{blob:blob,ref:ref,commit:commit};
       });
     });
-  }).then(function(d){
-    sp(i,65);
-    var fld=folderFor(f.name);
-    return api('/repos/'+GU+'/'+GR+'/git/trees','POST',{
-      base_tree:d.commit.tree.sha,
-      tree:[{path:fld+'/'+f.name,mode:'100644',type:'blob',sha:d.blob.sha}]
+  }).then(function(state){
+    setPg(idx,65);
+    setStep(idx,'Building tree...');
+    var folder=folderFor(file.name);
+
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/trees','POST',{
+      base_tree:state.commit.tree.sha,
+      tree:[{
+        path:folder+'/'+file.name,
+        mode:'100644',
+        type:'blob',
+        sha:state.blob.sha
+      }]
     }).then(function(tree){
-      return api('/repos/'+GU+'/'+GR+'/git/commits','POST',{
-        message:'Upload: '+f.name,tree:tree.sha,parents:[d.ref.object.sha]
-      }).then(function(nc){
-        sp(i,90);
-        return api('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:nc.sha,force:false}).then(function(){
-          sp(i,100);return fld;
-        });
-      });
+      return{state:state,tree:tree,folder:folder};
+    });
+  }).then(function(d){
+    setPg(idx,80);
+    setStep(idx,'Committing...');
+
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/commits','POST',{
+      message:'Upload: '+file.name+' ('+fmt(file.size)+')',
+      tree:d.tree.sha,
+      parents:[d.state.ref.object.sha]
+    }).then(function(newCommit){
+      return{newCommit:newCommit,folder:d.folder};
+    });
+  }).then(function(d){
+    setPg(idx,92);
+    setStep(idx,'Updating branch...');
+
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{
+      sha:d.newCommit.sha,
+      force:false
+    }).then(function(){
+      setPg(idx,100,'done');
+      setStep(idx,'');
+      return d.folder;
     });
   });
 }
 
 function uploadAll(){
   if(!gt()){m('Save your token first','#f85149');return;}
-  if(!files.length){m('Add files first','#e3b341');return;}
-  var btn=document.getElementById('ubtn');btn.disabled=true;btn.textContent='Uploading...';
+  if(!files.length){m('Add some files first','#e3b341');return;}
+  var btn=document.getElementById('ubtn');
+  btn.disabled=true;btn.textContent='Uploading...';
+
+  // Upload sequentially to avoid GitHub rate limits and race conditions
   var chain=Promise.resolve();
-  files.forEach(function(f,idx){
+  var uploaded=0;
+
+  files.forEach(function(file,idx){
     chain=chain.then(function(){
       var i=idx+1;
-      return upFile(f,i).then(function(fld){
-        ss(i,'done','bk');uc++;
+      setSt(i,'uploading','bb');
+      return upFile(file,i).then(function(folder){
+        setSt(i,'done','bk');
+        uploaded++;
+        var links=makeLinks(folder,file.name);
         var card=document.getElementById('fc'+i);
-        var links=makeLinks(fld,f.name);
         card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
         card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
-      }).catch(function(err){ss(idx+1,'failed','br');sp(idx+1,0);});
+      }).catch(function(err){
+        setSt(i,'failed','br');
+        setPg(i,100,'err');
+        setStep(i,'Error: '+err.message);
+        console.error('Upload failed for '+file.name,err);
+      });
     });
   });
+
   chain.then(function(){
-    btn.disabled=false;btn.textContent='Upload more';
-    setTimeout(loadLib,1500);
+    btn.disabled=false;
+    btn.textContent='Upload more';
+    m(uploaded+' file'+(uploaded!==1?'s':'')+' uploaded','#3fb950');
+    setTimeout(loadLib,2000);
   });
 }
 
+// Library loader
 function loadLib(){
   var el=document.getElementById('liblist');
-  if(!gt()){el.innerHTML='<div class="libempty">Save your token to see your files.</div>';return;}
+  if(!gt()){
+    el.innerHTML='<div class="libempty">Save your token to see your files.</div>';
+    return;
+  }
   el.innerHTML='<div class="libempty">Loading...</div>';
   var folders=['videos','images','lotties'];
   var all=[];
-  var fetches=folders.map(function(fld){
-    return fetch('https://api.github.com/repos/'+GU+'/'+GR+'/contents/'+fld,{headers:hd()})
+  var pending=folders.length;
+
+  folders.forEach(function(folder){
+    fetch('https://api.github.com/repos/'+GU+'/'+GR+'/contents/'+folder,{headers:hd()})
       .then(function(r){return r.ok?r.json():[];})
-      .then(function(d){
-        if(Array.isArray(d))d.forEach(function(f){all.push({name:f.name,size:f.size,folder:fld});});
-      }).catch(function(){});
-  });
-  Promise.all(fetches).then(function(){
-    if(!all.length){el.innerHTML='<div class="libempty">No files yet. Upload something above.</div>';return;}
-    all.sort(function(a,b){return a.name.localeCompare(b.name);});
-    el.innerHTML='';
-    all.forEach(function(f){
-      var links=makeLinks(f.folder,f.name);
-      var card=document.createElement('div');card.className='lf';
-      var head=document.createElement('div');head.className='lfh';
-      var ic=document.createElement('span');ic.className='lficon';ic.textContent=iconFor(f.name);
-      var nm=document.createElement('span');nm.className='lfname';nm.textContent=f.name;nm.title=f.name;
-      var tag=document.createElement('span');tag.className='lftag';tag.textContent=f.folder;
-      var sz=document.createElement('span');sz.className='lfsize';sz.textContent=fmt(f.size);
-      head.appendChild(ic);head.appendChild(nm);head.appendChild(tag);head.appendChild(sz);
-      card.appendChild(head);
-      card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
-      card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
-      el.appendChild(card);
-    });
+      .then(function(items){
+        if(Array.isArray(items)){
+          items.forEach(function(f){
+            all.push({name:f.name,size:f.size,folder:folder});
+          });
+        }
+      })
+      .catch(function(){})
+      .then(function(){
+        pending--;
+        if(pending===0)renderLib(all,el);
+      });
   });
 }
 
+function renderLib(all,el){
+  if(!all.length){
+    el.innerHTML='<div class="libempty">No files yet. Upload something above.</div>';
+    return;
+  }
+  all.sort(function(a,b){return a.name.localeCompare(b.name);});
+  el.innerHTML='';
+  all.forEach(function(f){
+    var links=makeLinks(f.folder,f.name);
+    var tl=typeLabel(f.name);
+    var card=document.createElement('div');card.className='lf';
+    var head=document.createElement('div');head.className='lfh';
+    var tp=document.createElement('span');tp.className='lftype '+tl[1];tp.textContent=tl[0];
+    var nm=document.createElement('span');nm.className='lfname';nm.textContent=f.name;nm.title=f.name;
+    var sz=document.createElement('span');sz.className='lfsize';sz.textContent=fmt(f.size);
+    head.appendChild(tp);head.appendChild(nm);head.appendChild(sz);
+    card.appendChild(head);
+    card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
+    card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
+    el.appendChild(card);
+  });
+}
+
+// Auto-load on page start if token exists
 if(gt())loadLib();
 </script>
 </body>
