@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>File Uploader</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#0d1117;color:#e6edf3;min-height:100vh;padding:2rem}
+.wrap{max-width:740px;margin:0 auto}
+h1{font-size:22px;font-weight:500;margin-bottom:6px}
+.sub{font-size:13px;color:#8b949e;margin-bottom:1.5rem}
+.nav{display:flex;gap:8px;margin-bottom:1.5rem;flex-wrap:wrap}
+.nav a{font-size:13px;color:#58a6ff;text-decoration:none;padding:6px 14px;border:1px solid #30363d;border-radius:6px;background:#161b22}
+.nav a:hover{background:#21262d}.nav a.active{border-color:#58a6ff}
+.trow{display:flex;gap:8px;margin-bottom:8px}
+.trow input{flex:1;background:#161b22;border:1px solid #30363d;border-radius:8px;padding:8px 12px;color:#e6edf3;font-size:13px;outline:none}
+.trow input:focus{border-color:#58a6ff}
+.trow button{padding:8px 16px;background:#21262d;border:1px solid #30363d;border-radius:8px;color:#e6edf3;cursor:pointer;font-size:13px}
+.trow button:hover{background:#30363d}
+.msg{font-size:12px;margin-bottom:1rem;min-height:18px}
+.warn{background:#2d1a00;border:1px solid #e3b341;border-radius:8px;padding:10px 14px;font-size:12px;color:#e3b341;margin-bottom:1rem}
+#dz{border:1.5px dashed #30363d;border-radius:12px;padding:3rem 2rem;text-align:center;cursor:pointer;margin-bottom:1rem;background:#161b22;transition:all .15s}
+#dz:hover,#dz.over{background:#1c2128;border-color:#58a6ff}
+#dz p{font-size:15px;font-weight:500;margin-bottom:4px}
+#dz span{font-size:13px;color:#8b949e}
+#fi{display:none}
+.fc{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.fh{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.fn{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.bx{font-size:11px;padding:2px 8px;border-radius:20px;white-space:nowrap;font-weight:500}
+.bg{background:#21262d;color:#8b949e}.bb{background:#1f3d6e;color:#58a6ff}
+.by{background:#2d1a00;color:#e3b341}.bk{background:#1a3a2a;color:#3fb950}.br{background:#3d1f1f;color:#f85149}
+.pg{height:4px;background:#21262d;border-radius:2px;overflow:hidden;margin-top:4px}
+.pf{height:100%;width:0%;border-radius:2px;background:#58a6ff;transition:width .4s}
+.lb{display:flex;align-items:center;gap:8px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:8px 12px;margin-top:6px}
+.lu{flex:1;font-size:11px;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lu.cdn{color:#58a6ff}.lu.raw{color:#6e7681}
+.cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0;white-space:nowrap;transition:all .2s}
+.cb:hover{background:#30363d}.cb.ok{background:#1a3a2a;border-color:#3fb950;color:#3fb950}
+.upb{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1.5rem}
+.upb:hover{background:#30363d}.upb:disabled{opacity:0.4;cursor:not-allowed}
+.libsec{margin-top:1.5rem;border-top:1px solid #21262d;padding-top:1.5rem}
+.libhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.libhead h2{font-size:16px;font-weight:500}
+.libhead button{font-size:12px;padding:5px 12px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3}
+.libhead button:hover{background:#30363d}
+.libempty{font-size:13px;color:#8b949e;text-align:center;padding:2rem;background:#161b22;border-radius:8px;border:1px solid #30363d}
+.lf{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
+.lfh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lficon{font-size:18px;flex-shrink:0}
+.lfname{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lftag{font-size:11px;padding:2px 8px;border-radius:20px;background:#21262d;color:#8b949e;flex-shrink:0}
+.lfsize{font-size:11px;color:#8b949e;flex-shrink:0}
+</style>
+</head>
+<body>
+<div class="wrap">
+<h1>File Uploader</h1>
+<p class="sub">namandoes/lottie-files</p>
+<div class="nav">
+  <a href="index.html">Lottie</a>
+  <a href="files.html" class="active">Files</a>
+  <a href="upload-image.html">Images</a>
+</div>
+<div class="trow">
+  <input type="password" id="tok" placeholder="GitHub token (ghp_...)"/>
+  <button id="savebtn">Save token</button>
+</div>
+<p class="msg" id="msg"></p>
+<div class="warn">Max 100MB per file. Use Raw links for video in Framer, CDN for images and Lottie.</div>
+<div id="dz">
+  <p>Drop files here or click to browse</p>
+  <span>.mp4 .webm .mov .png .jpg .json and more</span>
+</div>
+<input type="file" id="fi" accept="*/*" multiple/>
+<div id="q"></div>
+<button class="upb" id="ubtn">Upload to GitHub</button>
+<div class="libsec">
+  <div class="libhead">
+    <h2>Your Library</h2>
+    <button id="refreshbtn">Refresh</button>
+  </div>
+  <div id="liblist"><div class="libempty">Save your token to see your files.</div></div>
+</div>
+</div>
+<script>
+var GU='namandoes',GR='lottie-files',GB='main';
+var files=[],uc=0;
+var dz=document.getElementById('dz');
+var fi=document.getElementById('fi');
+var q=document.getElementById('q');
+
+document.getElementById('savebtn').addEventListener('click',saveTok);
+document.getElementById('ubtn').addEventListener('click',uploadAll);
+document.getElementById('refreshbtn').addEventListener('click',loadLib);
+dz.addEventListener('click',function(){fi.click();});
+fi.addEventListener('change',function(e){addFiles(e.target.files);fi.value='';});
+dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('over');});
+dz.addEventListener('dragleave',function(){dz.classList.remove('over');});
+dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('over');addFiles(e.dataTransfer.files);});
+
+function gt(){return sessionStorage.getItem('ght')||'';}
+
+function saveTok(){
+  var t=document.getElementById('tok').value.trim();
+  if(!t){m('Enter a token first','#f85149');return;}
+  sessionStorage.setItem('ght',t);
+  document.getElementById('tok').value='';
+  m('Token saved','#3fb950');
+  loadLib();
+}
+
+function m(txt,col){
+  var e=document.getElementById('msg');
+  e.textContent=txt;e.style.color=col;
+  setTimeout(function(){e.textContent='';},3000);
+}
+
+function fmt(b){
+  if(!b)return'?';
+  if(b<1024)return b+' B';
+  if(b<1048576)return(b/1024).toFixed(0)+' KB';
+  if(b<1073741824)return(b/1048576).toFixed(1)+' MB';
+  return(b/1073741824).toFixed(2)+' GB';
+}
+
+function folderFor(name){
+  var e=name.split('.').pop().toLowerCase();
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'videos';
+  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'images';
+  return'lotties';
+}
+
+function iconFor(name){
+  var e=name.split('.').pop().toLowerCase();
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'VIDEO';
+  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'IMAGE';
+  return'FILE';
+}
+
+function makeLinks(folder,name){
+  var enc=encodeURIComponent(name);
+  var cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+folder+'/'+enc;
+  var raw='https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+folder+'/'+enc;
+  return{cdn:cdn,raw:raw};
+}
+
+function makeLinkRow(url,cls,labelText){
+  var row=document.createElement('div');row.className='lb';
+  var lu=document.createElement('span');lu.className='lu '+cls;lu.textContent=url;lu.title=url;
+  var btn=document.createElement('button');btn.className='cb';btn.textContent=labelText;
+  btn.addEventListener('click',function(){
+    navigator.clipboard.writeText(url).then(function(){
+      btn.textContent='Copied!';btn.classList.add('ok');
+      setTimeout(function(){btn.textContent=labelText;btn.classList.remove('ok');},1500);
+    });
+  });
+  row.appendChild(lu);row.appendChild(btn);
+  return row;
+}
+
+function addFiles(list){
+  Array.from(list).forEach(function(f){
+    if(files.find(function(x){return x.name===f.name;})){m(f.name+' already added','#e3b341');return;}
+    if(f.size>100*1024*1024){m(f.name+' over 100MB limit','#f85149');return;}
+    files.push(f);
+    var i=files.length;
+    var sz=f.size>50*1024*1024?'by':'bb';
+    var c=document.createElement('div');c.className='fc';c.id='fc'+i;
+    var fh=document.createElement('div');fh.className='fh';
+    var fn=document.createElement('span');fn.className='fn';fn.textContent=f.name;
+    var bsize=document.createElement('span');bsize.className='bx '+sz;bsize.textContent=fmt(f.size);
+    var bstat=document.createElement('span');bstat.className='bx bg';bstat.id='fs'+i;bstat.textContent='queued';
+    fh.appendChild(fn);fh.appendChild(bsize);fh.appendChild(bstat);
+    var pg=document.createElement('div');pg.className='pg';
+    var pf=document.createElement('div');pf.className='pf';pf.id='fp'+i;
+    pg.appendChild(pf);c.appendChild(fh);c.appendChild(pg);q.appendChild(c);
+  });
+}
+
+function ss(i,t,c){var e=document.getElementById('fs'+i);if(e){e.textContent=t;e.className='bx '+c;}}
+function sp(i,p){var e=document.getElementById('fp'+i);if(e)e.style.width=Math.min(100,p)+'%';}
+
+function buf2b64(buf){
+  var b=new Uint8Array(buf);var C=8192;var s='';
+  for(var i=0;i<b.length;i+=C)s+=String.fromCharCode.apply(null,b.subarray(i,Math.min(i+C,b.length)));
+  return btoa(s);
+}
+
+function readBuf(f){
+  return new Promise(function(res,rej){
+    var rd=new FileReader();
+    rd.onload=function(e){res(e.target.result);};
+    rd.onerror=rej;
+    rd.readAsArrayBuffer(f);
+  });
+}
+
+function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
+
+function api(path,method,body){
+  return fetch('https://api.github.com'+path,{
+    method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined
+  }).then(function(r){
+    if(!r.ok)return r.json().then(function(e){throw new Error(e.message);});
+    return r.json();
+  });
+}
+
+function upFile(f,i){
+  ss(i,'reading','bb');sp(i,5);
+  return readBuf(f).then(function(buf){
+    var b64=buf2b64(buf);
+    ss(i,'uploading','bb');sp(i,20);
+    return api('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});
+  }).then(function(blob){
+    sp(i,50);
+    return api('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB).then(function(ref){
+      return api('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha).then(function(commit){
+        return{blob:blob,commit:commit,ref:ref};
+      });
+    });
+  }).then(function(d){
+    sp(i,65);
+    var fld=folderFor(f.name);
+    return api('/repos/'+GU+'/'+GR+'/git/trees','POST',{
+      base_tree:d.commit.tree.sha,
+      tree:[{path:fld+'/'+f.name,mode:'100644',type:'blob',sha:d.blob.sha}]
+    }).then(function(tree){
+      return api('/repos/'+GU+'/'+GR+'/git/commits','POST',{
+        message:'Upload: '+f.name,tree:tree.sha,parents:[d.ref.object.sha]
+      }).then(function(nc){
+        sp(i,90);
+        return api('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:nc.sha,force:false}).then(function(){
+          sp(i,100);return fld;
+        });
+      });
+    });
+  });
+}
+
+function uploadAll(){
+  if(!gt()){m('Save your token first','#f85149');return;}
+  if(!files.length){m('Add files first','#e3b341');return;}
+  var btn=document.getElementById('ubtn');btn.disabled=true;btn.textContent='Uploading...';
+  var chain=Promise.resolve();
+  files.forEach(function(f,idx){
+    chain=chain.then(function(){
+      var i=idx+1;
+      return upFile(f,i).then(function(fld){
+        ss(i,'done','bk');uc++;
+        var card=document.getElementById('fc'+i);
+        var links=makeLinks(fld,f.name);
+        card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
+        card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
+      }).catch(function(err){ss(idx+1,'failed','br');sp(idx+1,0);});
+    });
+  });
+  chain.then(function(){
+    btn.disabled=false;btn.textContent='Upload more';
+    setTimeout(loadLib,1500);
+  });
+}
+
+function loadLib(){
+  var el=document.getElementById('liblist');
+  if(!gt()){el.innerHTML='<div class="libempty">Save your token to see your files.</div>';return;}
+  el.innerHTML='<div class="libempty">Loading...</div>';
+  var folders=['videos','images','lotties'];
+  var all=[];
+  var fetches=folders.map(function(fld){
+    return fetch('https://api.github.com/repos/'+GU+'/'+GR+'/contents/'+fld,{headers:hd()})
+      .then(function(r){return r.ok?r.json():[];})
+      .then(function(d){
+        if(Array.isArray(d))d.forEach(function(f){all.push({name:f.name,size:f.size,folder:fld});});
+      }).catch(function(){});
+  });
+  Promise.all(fetches).then(function(){
+    if(!all.length){el.innerHTML='<div class="libempty">No files yet. Upload something above.</div>';return;}
+    all.sort(function(a,b){return a.name.localeCompare(b.name);});
+    el.innerHTML='';
+    all.forEach(function(f){
+      var links=makeLinks(f.folder,f.name);
+      var card=document.createElement('div');card.className='lf';
+      var head=document.createElement('div');head.className='lfh';
+      var ic=document.createElement('span');ic.className='lficon';ic.textContent=iconFor(f.name);
+      var nm=document.createElement('span');nm.className='lfname';nm.textContent=f.name;nm.title=f.name;
+      var tag=document.createElement('span');tag.className='lftag';tag.textContent=f.folder;
+      var sz=document.createElement('span');sz.className='lfsize';sz.textContent=fmt(f.size);
+      head.appendChild(ic);head.appendChild(nm);head.appendChild(tag);head.appendChild(sz);
+      card.appendChild(head);
+      card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
+      card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
+      el.appendChild(card);
+    });
+  });
+}
+
+if(gt())loadLib();
+</script>
+</body>
+</html>
