@@ -34,31 +34,30 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .pg{height:4px;background:#21262d;border-radius:2px;overflow:hidden;margin-top:4px}
 .pf{height:100%;width:0%;border-radius:2px;background:#58a6ff;transition:width .4s}
 .lb{display:flex;align-items:center;gap:8px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:8px 12px;margin-top:6px}
-.lu{flex:1;font-size:11px;font-family:monospace;color:#8b949e;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0;white-space:nowrap}
-.cb:hover{background:#30363d}
-.cb.ok{background:#1a3a2a;border-color:#3fb950;color:#3fb950}
+.lu{flex:1;font-size:11px;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lu.cdn{color:#58a6ff}.lu.raw{color:#6e7681}
+.cb{font-size:12px;padding:4px 10px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3;flex-shrink:0;white-space:nowrap;transition:all .2s}
+.cb:hover{background:#30363d}.cb.ok{background:#1a3a2a;border-color:#3fb950;color:#3fb950}
 .upb{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1.5rem}
 .upb:hover{background:#30363d}.upb:disabled{opacity:0.4;cursor:not-allowed}
-/* Library */
-.lib{margin-top:1rem}
-.libhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.libsec{margin-top:1.5rem;border-top:1px solid #21262d;padding-top:1.5rem}
+.libhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .libhead h2{font-size:16px;font-weight:500}
 .libhead button{font-size:12px;padding:5px 12px;cursor:pointer;border-radius:6px;border:1px solid #30363d;background:#21262d;color:#e6edf3}
 .libhead button:hover{background:#30363d}
-.libspin{font-size:13px;color:#8b949e;text-align:center;padding:2rem}
+.libempty{font-size:13px;color:#8b949e;text-align:center;padding:2rem;background:#161b22;border-radius:8px;border:1px solid #30363d}
 .lf{background:#161b22;border:1px solid #30363d;border-radius:10px;padding:14px 16px;margin-bottom:8px}
-.lfh{display:flex;align-items:center;gap:10px}
-.lficon{font-size:20px;flex-shrink:0}
+.lfh{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.lficon{font-size:18px;flex-shrink:0}
 .lfname{flex:1;font-size:13px;font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.lftag{font-size:11px;padding:2px 8px;border-radius:20px;background:#21262d;color:#8b949e;flex-shrink:0}
 .lfsize{font-size:11px;color:#8b949e;flex-shrink:0}
-.lflinks{display:flex;flex-direction:column;gap:4px;margin-top:8px}
 </style>
 </head>
 <body>
 <div class="wrap">
-<h1>Video Uploader</h1>
-<p class="sub">namandoes/lottie-files &mdash; upload files and browse your library</p>
+<h1>File Uploader</h1>
+<p class="sub">namandoes/lottie-files &mdash; upload and browse your full library</p>
 <div class="nav">
   <a href="index.html">Lottie</a>
   <a href="upload-video.html" class="active">Video</a>
@@ -66,52 +65,108 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 </div>
 <div class="trow">
   <input type="password" id="tok" placeholder="Paste GitHub token (ghp_...)" autocomplete="off"/>
-  <button onclick="saveTok()">Save token</button>
+  <button id="savebtn" onclick="saveTok()">Save token</button>
 </div>
 <p class="msg" id="msg"></p>
-<div class="warn">GitHub limit: 100MB per file. Files over 50MB shown in amber. H.264 MP4 recommended.</div>
+<div class="warn">GitHub limit: 100MB per file. Files over 50MB shown in amber. Use H.264 MP4 for video.</div>
 <div id="dz" onclick="document.getElementById('fi').click()">
-  <p>Drop video files here</p>
-  <span>.mp4 &nbsp;&middot;&nbsp; .webm &nbsp;&middot;&nbsp; .mov &nbsp;&middot;&nbsp; .avi &nbsp;&middot;&nbsp; .mkv &nbsp;&middot;&nbsp; any size</span>
+  <p>Drop files here or click to select</p>
+  <span>.mp4 &nbsp;&middot;&nbsp; .webm &nbsp;&middot;&nbsp; .mov &nbsp;&middot;&nbsp; .png &nbsp;&middot;&nbsp; .jpg &nbsp;&middot;&nbsp; .json &nbsp;&middot;&nbsp; any format</span>
 </div>
-<input type="file" id="fi" accept=".mp4,.webm,.mov,.avi,.mkv,.m4v,.ogv,video/*" multiple/>
+<input type="file" id="fi" accept=".mp4,.webm,.mov,.avi,.mkv,.m4v,.ogv,.png,.jpg,.jpeg,.webp,.gif,.svg,.json,video/*,image/*" multiple/>
 <div id="q"></div>
-<button class="upb" id="ubtn" onclick="uploadAll()">Upload all to GitHub</button>
-
-<!-- Library -->
-<div class="lib">
+<button class="upb" id="ubtn" onclick="uploadAll()">Upload to GitHub</button>
+<div class="libsec">
   <div class="libhead">
-    <h2>Uploaded Files</h2>
+    <h2>Your Library</h2>
     <button onclick="loadLib()">Refresh</button>
   </div>
-  <div id="liblist"><div class="libspin">Loading library...</div></div>
+  <div id="liblist"><div class="libempty">Save your token above to load your files.</div></div>
 </div>
 </div>
-
 <script>
 const GU='namandoes',GR='lottie-files',GB='main';
-let files=[],uc=0,tb=0;
+let files=[],uc=0;
 const dz=document.getElementById('dz'),fi=document.getElementById('fi'),q=document.getElementById('q');
 
 function gt(){return sessionStorage.getItem('ght')||'';}
+
 function saveTok(){
   const t=document.getElementById('tok').value.trim();
   if(!t){m('Enter a token first','#f85149');return;}
-  sessionStorage.setItem('ght',t);document.getElementById('tok').value='';
-  m('Token saved for this session','#3fb950');
+  sessionStorage.setItem('ght',t);
+  document.getElementById('tok').value='';
+  m('Token saved','#3fb950');
   loadLib();
 }
-function m(txt,col){const e=document.getElementById('msg');e.textContent=txt;e.style.color=col;setTimeout(()=>e.textContent='',3000);}
-function fmt(b){if(b<1024)return b+' B';if(b<1048576)return(b/1024).toFixed(0)+' KB';if(b<1073741824)return(b/1048576).toFixed(1)+' MB';return(b/1073741824).toFixed(2)+' GB';}
-function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
-function ext(n){return n.split('.').pop().toLowerCase();}
-function icon(n){const e=ext(n);if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'🎬';if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'🖼️';if(['json','lottie'].includes(e))return'✨';return'📄';}
 
+function m(txt,col){
+  const e=document.getElementById('msg');
+  e.textContent=txt;e.style.color=col;
+  setTimeout(()=>e.textContent='',3000);
+}
+
+function fmt(b){
+  if(!b)return'?';
+  if(b<1024)return b+' B';
+  if(b<1048576)return(b/1024).toFixed(0)+' KB';
+  if(b<1073741824)return(b/1048576).toFixed(1)+' MB';
+  return(b/1073741824).toFixed(2)+' GB';
+}
+
+function folderFor(name){
+  const e=name.split('.').pop().toLowerCase();
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'videos';
+  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'images';
+  return'lotties';
+}
+
+function iconFor(name){
+  const e=name.split('.').pop().toLowerCase();
+  if(['mp4','webm','mov','avi','mkv','m4v','ogv'].includes(e))return'🎬';
+  if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'🖼️';
+  if(e==='json')return'✨';
+  return'📄';
+}
+
+function makeLinks(folder, name){
+  const enc=encodeURIComponent(name);
+  const cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+folder+'/'+enc;
+  const raw='https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+folder+'/'+enc;
+  return{cdn,raw};
+}
+
+function copyBtn(url, label){
+  const btn=document.createElement('button');
+  btn.className='cb';
+  btn.textContent=label;
+  btn.addEventListener('click',function(){
+    navigator.clipboard.writeText(url).then(()=>{
+      const o=btn.textContent;
+      btn.textContent='Copied!';btn.classList.add('ok');
+      setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1500);
+    });
+  });
+  return btn;
+}
+
+function makeLinkRow(url, cls){
+  const row=document.createElement('div');
+  row.className='lb';
+  const lu=document.createElement('span');
+  lu.className='lu '+cls;lu.textContent=url;lu.title=url;
+  const label=cls==='cdn'?'Copy CDN':'Copy Raw';
+  const btn=copyBtn(url,label);
+  row.appendChild(lu);row.appendChild(btn);
+  return row;
+}
+
+// ---- Upload ----
 function addFiles(list){
   [...list].forEach(f=>{
-    if(files.find(x=>x.name===f.name))return;
-    if(f.size>100*1024*1024){m(f.name+' exceeds GitHub 100MB limit','#f85149');return;}
-    files.push(f);tb+=f.size;
+    if(files.find(x=>x.name===f.name)){m(f.name+' already queued','#e3b341');return;}
+    if(f.size>100*1024*1024){m(f.name+' exceeds 100MB limit','#f85149');return;}
+    files.push(f);
     const i=files.length;
     const sz=f.size>50*1024*1024?'by':'bb';
     const c=document.createElement('div');c.className='fc';c.id='fc'+i;
@@ -126,26 +181,35 @@ dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('over');ad
 
 function ss(i,t,c){const e=document.getElementById('fs'+i);if(e){e.textContent=t;e.className='bx '+c;}}
 function sp(i,p){const e=document.getElementById('fp'+i);if(e)e.style.width=Math.min(100,p)+'%';}
-function buf2b64(buf){const b=new Uint8Array(buf);const C=8192;let s='';for(let i=0;i<b.length;i+=C)s+=String.fromCharCode.apply(null,b.subarray(i,Math.min(i+C,b.length)));return btoa(s);}
+
+function buf2b64(buf){
+  const b=new Uint8Array(buf);const C=8192;let s='';
+  for(let i=0;i<b.length;i+=C)s+=String.fromCharCode.apply(null,b.subarray(i,Math.min(i+C,b.length)));
+  return btoa(s);
+}
 function readBuf(f){return new Promise((r,j)=>{const rd=new FileReader();rd.onload=e=>r(e.target.result);rd.onerror=j;rd.readAsArrayBuffer(f);});}
-async function call(path,method,body){
+function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
+async function api(path,method,body){
   const r=await fetch('https://api.github.com'+path,{method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined});
   if(!r.ok){const e=await r.json();throw new Error(e.message);}
   return r.json();
 }
-function folder(fname){const e=ext(fname);if(['png','jpg','jpeg','webp','gif','svg'].includes(e))return'images';if(['json','lottie'].includes(e))return'lotties';return'videos';}
 
 async function upFile(f,i){
   ss(i,'reading...','bb');sp(i,5);
-  const buf=await readBuf(f);const b64=buf2b64(buf);
+  const b64=buf2b64(await readBuf(f));
   ss(i,'uploading...','bb');sp(i,20);
-  const blob=await call('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});sp(i,50);
-  const ref=await call('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB);
-  const commit=await call('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha);sp(i,65);
-  const fld=folder(f.name);
-  const tree=await call('/repos/'+GU+'/'+GR+'/git/trees','POST',{base_tree:commit.tree.sha,tree:[{path:fld+'/'+f.name,mode:'100644',type:'blob',sha:blob.sha}]});
-  const nc=await call('/repos/'+GU+'/'+GR+'/git/commits','POST',{message:'Upload: '+f.name,tree:tree.sha,parents:[ref.object.sha]});sp(i,85);
-  await call('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:nc.sha,force:false});sp(i,100);
+  const blob=await api('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});
+  sp(i,50);
+  const ref=await api('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB);
+  const commit=await api('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha);
+  sp(i,65);
+  const fld=folderFor(f.name);
+  const tree=await api('/repos/'+GU+'/'+GR+'/git/trees','POST',{base_tree:commit.tree.sha,tree:[{path:fld+'/'+f.name,mode:'100644',type:'blob',sha:blob.sha}]});
+  const nc=await api('/repos/'+GU+'/'+GR+'/git/commits','POST',{message:'Upload: '+f.name,tree:tree.sha,parents:[ref.object.sha]});
+  sp(i,90);
+  await api('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:nc.sha,force:false});
+  sp(i,100);
   return fld;
 }
 
@@ -156,66 +220,51 @@ async function uploadAll(){
   for(let i=0;i<files.length;i++){
     const f=files[i],idx=i+1,card=document.getElementById('fc'+idx);
     try{
-      const fld=await upFile(f,idx);ss(idx,'uploaded','bk');uc++;
-      const cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+fld+'/'+encodeURIComponent(f.name);
-      const raw='https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+fld+'/'+encodeURIComponent(f.name);
-      appendLinks(card,cdn,raw);
+      const fld=await upFile(f,idx);
+      ss(idx,'done','bk');uc++;
+      const {cdn,raw}=makeLinks(fld,f.name);
+      card.appendChild(makeLinkRow(cdn,'cdn'));
+      card.appendChild(makeLinkRow(raw,'raw'));
     }catch(err){ss(idx,'failed: '+err.message,'br');sp(idx,0);}
   }
   btn.disabled=false;btn.textContent='Upload more';
-  setTimeout(loadLib,2000);
+  setTimeout(loadLib,1500);
 }
 
-function appendLinks(card,cdn,raw){
-  const bx=document.createElement('div');
-  bx.innerHTML=
-    '<div class="lb"><span class="lu">'+cdn+'</span><button class="cb" onclick="cp(this,''+cdn+'')">Copy CDN</button></div>'+
-    '<div class="lb" style="margin-top:4px"><span class="lu" style="color:#6e7681">'+raw+'</span><button class="cb" onclick="cp(this,''+raw+'')">Copy Raw</button></div>';
-  card.appendChild(bx);
-}
-
-function cp(btn,url){
-  navigator.clipboard.writeText(url).then(()=>{
-    const o=btn.textContent;btn.textContent='Copied!';btn.classList.add('ok');
-    setTimeout(()=>{btn.textContent=o;btn.classList.remove('ok');},1500);
-  });
-}
-
+// ---- Library ----
 async function loadLib(){
   const el=document.getElementById('liblist');
-  el.innerHTML='<div class="libspin">Loading...</div>';
-  if(!gt()){el.innerHTML='<div class="libspin">Save your token to browse files.</div>';return;}
+  if(!gt()){el.innerHTML='<div class="libempty">Save your token above to load your files.</div>';return;}
+  el.innerHTML='<div class="libempty">Loading...</div>';
   const folders=['videos','images','lotties'];
-  const allFiles=[];
+  const all=[];
   for(const fld of folders){
     try{
       const r=await fetch('https://api.github.com/repos/'+GU+'/'+GR+'/contents/'+fld,{headers:hd()});
-      if(r.ok){const d=await r.json();d.forEach(f=>{allFiles.push({...f,folder:fld});});}
+      if(r.ok){const d=await r.json();if(Array.isArray(d))d.forEach(f=>all.push({name:f.name,size:f.size,folder:fld}));}
     }catch(e){}
   }
-  if(!allFiles.length){el.innerHTML='<div class="libspin">No files found.</div>';return;}
-  allFiles.sort((a,b)=>a.name.localeCompare(b.name));
+  if(!all.length){el.innerHTML='<div class="libempty">No files found. Upload something above.</div>';return;}
+  all.sort((a,b)=>a.name.localeCompare(b.name));
   el.innerHTML='';
-  allFiles.forEach(f=>{
-    const cdn='https://cdn.jsdelivr.net/gh/'+GU+'/'+GR+'@'+GB+'/'+f.folder+'/'+encodeURIComponent(f.name);
-    const raw='https://raw.githubusercontent.com/'+GU+'/'+GR+'/'+GB+'/'+f.folder+'/'+encodeURIComponent(f.name);
+  all.forEach(f=>{
+    const{cdn,raw}=makeLinks(f.folder,f.name);
     const card=document.createElement('div');card.className='lf';
-    card.innerHTML=
-      '<div class="lfh">'+
-        '<span class="lficon">'+icon(f.name)+'</span>'+
-        '<span class="lfname" title="'+f.name+'">'+f.name+'</span>'+
-        '<span class="lfsize">'+fmt(f.size)+'</span>'+
-      '</div>'+
-      '<div class="lflinks">'+
-        '<div class="lb"><span class="lu">'+cdn+'</span><button class="cb" onclick="cp(this,''+cdn+'')">Copy CDN</button></div>'+
-        '<div class="lb"><span class="lu" style="color:#6e7681">'+raw+'</span><button class="cb" onclick="cp(this,''+raw+'')">Copy Raw</button></div>'+
-      '</div>';
+    const head=document.createElement('div');head.className='lfh';
+    const ic=document.createElement('span');ic.className='lficon';ic.textContent=iconFor(f.name);
+    const nm=document.createElement('span');nm.className='lfname';nm.textContent=f.name;nm.title=f.name;
+    const tag=document.createElement('span');tag.className='lftag';tag.textContent=f.folder;
+    const sz=document.createElement('span');sz.className='lfsize';sz.textContent=fmt(f.size);
+    head.appendChild(ic);head.appendChild(nm);head.appendChild(tag);head.appendChild(sz);
+    card.appendChild(head);
+    card.appendChild(makeLinkRow(cdn,'cdn'));
+    card.appendChild(makeLinkRow(raw,'raw'));
     el.appendChild(card);
   });
 }
 
-// Auto load lib on page load
-window.addEventListener('load',()=>{ if(gt()) loadLib(); else document.getElementById('liblist').innerHTML='<div class="libspin">Save your token to browse uploaded files.</div>'; });
+// Auto-load on page open if token exists
+window.addEventListener('load',()=>{if(gt())loadLib();});
 </script>
 </body>
 </html>
