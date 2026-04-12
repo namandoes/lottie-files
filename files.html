@@ -46,6 +46,27 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 .cb:hover{background:#30363d}.cb.ok{background:#1a3a2a;border-color:#3fb950;color:#3fb950}
 .upb{width:100%;padding:10px;font-size:14px;font-weight:500;cursor:pointer;border-radius:8px;border:1px solid #30363d;background:#21262d;color:#e6edf3;margin-bottom:1.5rem}
 .upb:hover{background:#30363d}.upb:disabled{opacity:0.4;cursor:not-allowed}
+/* GitHub push section */
+.ghsec{background:#161b22;border:1px solid #30363d;border-radius:12px;padding:20px;margin-bottom:1.5rem}
+.ghsec h2{font-size:15px;font-weight:500;margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.ghsec .badge{font-size:11px;padding:2px 8px;border-radius:20px;background:#1a3a2a;color:#3fb950;font-weight:500}
+.ghsec p{font-size:12px;color:#8b949e;margin-bottom:16px;line-height:1.6}
+.ghlinks{display:flex;flex-direction:column;gap:8px}
+.ghlink{display:flex;align-items:center;gap:10px;background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px 14px;text-decoration:none}
+.ghlink:hover{border-color:#58a6ff;background:#0d2137}
+.ghlink-icon{font-size:18px;flex-shrink:0}
+.ghlink-body{flex:1;min-width:0}
+.ghlink-title{font-size:13px;font-weight:500;color:#e6edf3;margin-bottom:2px}
+.ghlink-url{font-size:11px;color:#58a6ff;font-family:monospace;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ghlink-arr{color:#8b949e;font-size:14px;flex-shrink:0}
+.folders{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.folder{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px 12px;text-decoration:none}
+.folder:hover{border-color:#58a6ff}
+.folder-label{font-size:11px;color:#8b949e;margin-bottom:2px}
+.folder-name{font-size:13px;font-weight:500;color:#e6edf3}
+.folder-hint{font-size:11px;color:#6e7681;margin-top:2px}
+.cmd{background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:10px 14px;font-family:monospace;font-size:12px;color:#3fb950;margin-top:8px;word-break:break-all;line-height:1.8}
+/* Library */
 .libsec{margin-top:1.5rem;border-top:1px solid #21262d;padding-top:1.5rem}
 .libhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .libhead h2{font-size:16px;font-weight:500}
@@ -65,28 +86,73 @@ h1{font-size:22px;font-weight:500;margin-bottom:6px}
 <body>
 <div class="wrap">
 <h1>File Uploader</h1>
-<p class="sub">namandoes/lottie-files &mdash; upload and browse your full library</p>
+<p class="sub">namandoes/lottie-files &mdash; upload and browse your library</p>
 <div class="nav">
   <a href="index.html">Lottie</a>
   <a href="files.html" class="active">Files</a>
   <a href="upload-image.html">Images</a>
 </div>
+
 <div class="trow">
   <input type="password" id="tok" placeholder="GitHub token (ghp_...)"/>
   <button id="savebtn">Save token</button>
 </div>
 <p class="msg" id="msg"></p>
+
 <div class="info">
-  Supports all file sizes up to 100MB. Large files upload in chunks with automatic retry.<br>
-  <strong>Video in Framer:</strong> use Raw link &nbsp;|&nbsp; <strong>Images and Lottie:</strong> use CDN link
+  Files under 25MB upload here instantly. For larger videos use GitHub Desktop or drag directly into the repo folder links below.
 </div>
+
+<!-- GitHub Direct Access -->
+<div class="ghsec">
+  <h2>&#x1F4E6; GitHub Direct Access <span class="badge">For large files</span></h2>
+  <p>Upload any size file by dragging it directly into the GitHub repo folder. After uploading, hit Refresh in the library below to get the links.</p>
+  <div class="ghlinks">
+    <a class="ghlink" href="https://github.com/namandoes/lottie-files" target="_blank">
+      <span class="ghlink-icon">&#x1F4CB;</span>
+      <div class="ghlink-body">
+        <div class="ghlink-title">Open full repository</div>
+        <div class="ghlink-url">github.com/namandoes/lottie-files</div>
+      </div>
+      <span class="ghlink-arr">&#x2197;</span>
+    </a>
+  </div>
+  <div class="folders">
+    <a class="folder" href="https://github.com/namandoes/lottie-files/tree/main/videos" target="_blank">
+      <div class="folder-label">&#x1F3AC; Videos</div>
+      <div class="folder-name">videos/</div>
+      <div class="folder-hint">mp4, webm, mov</div>
+    </a>
+    <a class="folder" href="https://github.com/namandoes/lottie-files/tree/main/images" target="_blank">
+      <div class="folder-label">&#x1F5BC; Images</div>
+      <div class="folder-name">images/</div>
+      <div class="folder-hint">png, jpg, webp</div>
+    </a>
+    <a class="folder" href="https://github.com/namandoes/lottie-files/tree/main/lotties" target="_blank">
+      <div class="folder-label">&#x2728; Lottie</div>
+      <div class="folder-name">lotties/</div>
+      <div class="folder-hint">json files</div>
+    </a>
+  </div>
+  <div class="cmd">
+    # Clone once, then drag files in and push<br>
+    git clone https://github.com/namandoes/lottie-files.git<br>
+    cd lottie-files<br>
+    # drag your video into the videos/ folder, then:<br>
+    git add . &amp;&amp; git commit -m "add video" &amp;&amp; git push
+  </div>
+</div>
+
+<!-- Small file uploader -->
 <div id="dz">
-  <p>Drop files here or click to browse</p>
-  <span>.mp4 .webm .mov .png .jpg .json and any format</span>
+  <p>Drop files here &mdash; under 25MB</p>
+  <span>.mp4 .webm .mov .png .jpg .json and more</span>
 </div>
 <input type="file" id="fi" accept="*/*" multiple/>
 <div id="q"></div>
 <button class="upb" id="ubtn">Upload to GitHub</button>
+
+<!-- Library -->
 <div class="libsec">
   <div class="libhead">
     <h2>Your Library</h2>
@@ -111,10 +177,7 @@ dz.addEventListener('click',function(){fi.click();});
 fi.addEventListener('change',function(e){addFiles(e.target.files);fi.value='';});
 dz.addEventListener('dragover',function(e){e.preventDefault();dz.classList.add('over');});
 dz.addEventListener('dragleave',function(){dz.classList.remove('over');});
-dz.addEventListener('drop',function(e){
-  e.preventDefault();dz.classList.remove('over');
-  addFiles(e.dataTransfer.files);
-});
+dz.addEventListener('drop',function(e){e.preventDefault();dz.classList.remove('over');addFiles(e.dataTransfer.files);});
 
 function gt(){return sessionStorage.getItem('ght')||'';}
 
@@ -172,9 +235,8 @@ function makeLinkRow(url,cls,label){
       btn.textContent='Copied!';btn.classList.add('ok');
       setTimeout(function(){btn.textContent=label;btn.classList.remove('ok');},1500);
     }).catch(function(){
-      // Fallback for clipboard failure
       var ta=document.createElement('textarea');
-      ta.value=url;ta.style.position='fixed';ta.style.opacity='0';
+      ta.value=url;ta.style.cssText='position:fixed;opacity:0';
       document.body.appendChild(ta);ta.select();
       document.execCommand('copy');document.body.removeChild(ta);
       btn.textContent='Copied!';btn.classList.add('ok');
@@ -187,20 +249,16 @@ function makeLinkRow(url,cls,label){
 
 function addFiles(list){
   Array.from(list).forEach(function(f){
-    if(files.find(function(x){return x.name===f.name;})){
-      m(f.name+' already queued','#e3b341');return;
-    }
-    if(f.size>100*1024*1024){
-      m(f.name+' is over 100MB — GitHub limit','#f85149');return;
+    if(files.find(function(x){return x.name===f.name;})){m(f.name+' already queued','#e3b341');return;}
+    if(f.size>25*1024*1024){
+      m(f.name+' is over 25MB — use GitHub direct upload above','#e3b341');return;
     }
     files.push(f);
     var i=files.length;
-    var sizeClass=f.size>50*1024*1024?'by':'bb';
-    var card=document.createElement('div');
-    card.className='fc';card.id='fc'+i;
+    var card=document.createElement('div');card.className='fc';card.id='fc'+i;
     var fh=document.createElement('div');fh.className='fh';
     var fn=document.createElement('span');fn.className='fn';fn.title=f.name;fn.textContent=f.name;
-    var bs=document.createElement('span');bs.className='bx '+sizeClass;bs.textContent=fmt(f.size);
+    var bs=document.createElement('span');bs.className='bx bb';bs.textContent=fmt(f.size);
     var st=document.createElement('span');st.className='bx bg';st.id='fs'+i;st.textContent='queued';
     fh.appendChild(fn);fh.appendChild(bs);fh.appendChild(st);
     var pg=document.createElement('div');pg.className='pg';
@@ -212,27 +270,14 @@ function addFiles(list){
   });
 }
 
-function setSt(i,t,c){
-  var e=document.getElementById('fs'+i);
-  if(e){e.textContent=t;e.className='bx '+c;}
-}
-function setPg(i,p,cls){
-  var e=document.getElementById('fp'+i);
-  if(e){e.style.width=Math.min(100,p)+'%';if(cls)e.className='pf '+cls;}
-}
-function setStep(i,t){
-  var e=document.getElementById('ps'+i);
-  if(e)e.textContent=t;
-}
+function setSt(i,t,c){var e=document.getElementById('fs'+i);if(e){e.textContent=t;e.className='bx '+c;}}
+function setPg(i,p,cls){var e=document.getElementById('fp'+i);if(e){e.style.width=Math.min(100,p)+'%';if(cls)e.className='pf '+cls;}}
+function setStep(i,t){var e=document.getElementById('ps'+i);if(e)e.textContent=t;}
 
-// Chunked base64 conversion — avoids call stack overflow on large files
 function buf2b64(buf){
-  var bytes=new Uint8Array(buf);
-  var CHUNK=8192;
-  var str='';
-  for(var i=0;i<bytes.length;i+=CHUNK){
+  var bytes=new Uint8Array(buf);var CHUNK=8192;var str='';
+  for(var i=0;i<bytes.length;i+=CHUNK)
     str+=String.fromCharCode.apply(null,bytes.subarray(i,Math.min(i+CHUNK,bytes.length)));
-  }
   return btoa(str);
 }
 
@@ -245,36 +290,22 @@ function readBuf(file){
   });
 }
 
-function hd(){
-  return{
-    'Authorization':'token '+gt(),
-    'Content-Type':'application/json',
-    'Accept':'application/vnd.github.v3+json'
-  };
-}
+function hd(){return{'Authorization':'token '+gt(),'Content-Type':'application/json','Accept':'application/vnd.github.v3+json'};}
 
-// API call with automatic retry on failure
 function apiWithRetry(path,method,body,attempt){
   attempt=attempt||1;
   return fetch('https://api.github.com'+path,{
-    method:method||'GET',
-    headers:hd(),
-    body:body?JSON.stringify(body):undefined
+    method:method||'GET',headers:hd(),body:body?JSON.stringify(body):undefined
   }).then(function(r){
     if(r.status===409&&attempt<MAX_RETRIES){
-      // Conflict — usually a race condition, retry after short delay
       return new Promise(function(res){setTimeout(res,1000*attempt);}).then(function(){
         return apiWithRetry(path,method,body,attempt+1);
       });
     }
-    if(!r.ok){
-      return r.json().then(function(e){
-        throw new Error(e.message||'HTTP '+r.status);
-      });
-    }
+    if(!r.ok)return r.json().then(function(e){throw new Error(e.message||'HTTP '+r.status);});
     return r.json();
   }).catch(function(err){
-    if(attempt<MAX_RETRIES&&err.message!=='rate limit exceeded'){
+    if(attempt<MAX_RETRIES){
       return new Promise(function(res){setTimeout(res,2000*attempt);}).then(function(){
         return apiWithRetry(path,method,body,attempt+1);
       });
@@ -283,79 +314,36 @@ function apiWithRetry(path,method,body,attempt){
   });
 }
 
-// Get current HEAD ref (with retry)
-function getRef(){
-  return apiWithRetry('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB);
-}
-
-// Upload a single file — works for any size under 100MB
 function upFile(file,idx){
-  setStep(idx,'Reading file...');
-  setSt(idx,'reading','bb');
-  setPg(idx,5);
-
+  setStep(idx,'Reading...');setSt(idx,'reading','bb');setPg(idx,5);
   return readBuf(file).then(function(buf){
-    setStep(idx,'Encoding...');
-    setPg(idx,15);
-
-    // Encode in chunks to avoid memory issues
+    setStep(idx,'Encoding...');setPg(idx,15);
     var b64=buf2b64(buf);
-    setStep(idx,'Creating blob on GitHub...');
-    setPg(idx,25);
-
-    // Upload blob
-    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/blobs','POST',{
-      content:b64,
-      encoding:'base64'
-    });
+    setStep(idx,'Uploading blob...');setPg(idx,25);
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/blobs','POST',{content:b64,encoding:'base64'});
   }).then(function(blob){
-    setPg(idx,50);
-    setStep(idx,'Getting repository state...');
-
-    // Get current ref and commit in parallel
-    return getRef().then(function(ref){
+    setPg(idx,50);setStep(idx,'Getting repo state...');
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/ref/heads/'+GB).then(function(ref){
       return apiWithRetry('/repos/'+GU+'/'+GR+'/git/commits/'+ref.object.sha).then(function(commit){
         return{blob:blob,ref:ref,commit:commit};
       });
     });
   }).then(function(state){
-    setPg(idx,65);
-    setStep(idx,'Building tree...');
+    setPg(idx,65);setStep(idx,'Building tree...');
     var folder=folderFor(file.name);
-
     return apiWithRetry('/repos/'+GU+'/'+GR+'/git/trees','POST',{
       base_tree:state.commit.tree.sha,
-      tree:[{
-        path:folder+'/'+file.name,
-        mode:'100644',
-        type:'blob',
-        sha:state.blob.sha
-      }]
-    }).then(function(tree){
-      return{state:state,tree:tree,folder:folder};
-    });
+      tree:[{path:folder+'/'+file.name,mode:'100644',type:'blob',sha:state.blob.sha}]
+    }).then(function(tree){return{state:state,tree:tree,folder:folder};});
   }).then(function(d){
-    setPg(idx,80);
-    setStep(idx,'Committing...');
-
+    setPg(idx,80);setStep(idx,'Committing...');
     return apiWithRetry('/repos/'+GU+'/'+GR+'/git/commits','POST',{
-      message:'Upload: '+file.name+' ('+fmt(file.size)+')',
-      tree:d.tree.sha,
-      parents:[d.state.ref.object.sha]
-    }).then(function(newCommit){
-      return{newCommit:newCommit,folder:d.folder};
-    });
+      message:'Upload: '+file.name,tree:d.tree.sha,parents:[d.state.ref.object.sha]
+    }).then(function(nc){return{nc:nc,folder:d.folder};});
   }).then(function(d){
-    setPg(idx,92);
-    setStep(idx,'Updating branch...');
-
-    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{
-      sha:d.newCommit.sha,
-      force:false
-    }).then(function(){
-      setPg(idx,100,'done');
-      setStep(idx,'');
-      return d.folder;
+    setPg(idx,92);setStep(idx,'Updating branch...');
+    return apiWithRetry('/repos/'+GU+'/'+GR+'/git/refs/heads/'+GB,'PATCH',{sha:d.nc.sha,force:false}).then(function(){
+      setPg(idx,100,'done');setStep(idx,'');return d.folder;
     });
   });
 }
@@ -363,76 +351,48 @@ function upFile(file,idx){
 function uploadAll(){
   if(!gt()){m('Save your token first','#f85149');return;}
   if(!files.length){m('Add some files first','#e3b341');return;}
-  var btn=document.getElementById('ubtn');
-  btn.disabled=true;btn.textContent='Uploading...';
-
-  // Upload sequentially to avoid GitHub rate limits and race conditions
-  var chain=Promise.resolve();
-  var uploaded=0;
-
+  var btn=document.getElementById('ubtn');btn.disabled=true;btn.textContent='Uploading...';
+  var chain=Promise.resolve();var uploaded=0;
   files.forEach(function(file,idx){
     chain=chain.then(function(){
-      var i=idx+1;
-      setSt(i,'uploading','bb');
+      var i=idx+1;setSt(i,'uploading','bb');
       return upFile(file,i).then(function(folder){
-        setSt(i,'done','bk');
-        uploaded++;
-        var links=makeLinks(folder,file.name);
+        setSt(i,'done','bk');uploaded++;
         var card=document.getElementById('fc'+i);
+        var links=makeLinks(folder,file.name);
         card.appendChild(makeLinkRow(links.cdn,'cdn','Copy CDN'));
         card.appendChild(makeLinkRow(links.raw,'raw','Copy Raw'));
       }).catch(function(err){
-        setSt(i,'failed','br');
-        setPg(i,100,'err');
+        setSt(i,'failed','br');setPg(i,100,'err');
         setStep(i,'Error: '+err.message);
-        console.error('Upload failed for '+file.name,err);
       });
     });
   });
-
   chain.then(function(){
-    btn.disabled=false;
-    btn.textContent='Upload more';
+    btn.disabled=false;btn.textContent='Upload more';
     m(uploaded+' file'+(uploaded!==1?'s':'')+' uploaded','#3fb950');
     setTimeout(loadLib,2000);
   });
 }
 
-// Library loader
 function loadLib(){
   var el=document.getElementById('liblist');
-  if(!gt()){
-    el.innerHTML='<div class="libempty">Save your token to see your files.</div>';
-    return;
-  }
+  if(!gt()){el.innerHTML='<div class="libempty">Save your token to see your files.</div>';return;}
   el.innerHTML='<div class="libempty">Loading...</div>';
-  var folders=['videos','images','lotties'];
-  var all=[];
-  var pending=folders.length;
-
+  var folders=['videos','images','lotties'];var all=[];var pending=folders.length;
   folders.forEach(function(folder){
     fetch('https://api.github.com/repos/'+GU+'/'+GR+'/contents/'+folder,{headers:hd()})
       .then(function(r){return r.ok?r.json():[];})
       .then(function(items){
-        if(Array.isArray(items)){
-          items.forEach(function(f){
-            all.push({name:f.name,size:f.size,folder:folder});
-          });
-        }
-      })
-      .catch(function(){})
-      .then(function(){
-        pending--;
-        if(pending===0)renderLib(all,el);
+        if(Array.isArray(items))items.forEach(function(f){all.push({name:f.name,size:f.size,folder:folder});});
+      }).catch(function(){}).then(function(){
+        pending--;if(pending===0)renderLib(all,el);
       });
   });
 }
 
 function renderLib(all,el){
-  if(!all.length){
-    el.innerHTML='<div class="libempty">No files yet. Upload something above.</div>';
-    return;
-  }
+  if(!all.length){el.innerHTML='<div class="libempty">No files yet.</div>';return;}
   all.sort(function(a,b){return a.name.localeCompare(b.name);});
   el.innerHTML='';
   all.forEach(function(f){
@@ -451,7 +411,6 @@ function renderLib(all,el){
   });
 }
 
-// Auto-load on page start if token exists
 if(gt())loadLib();
 </script>
 </body>
